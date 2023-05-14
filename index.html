@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Student Mark Maintenance System</title>
+</head>
+<body>
+	<h2>Student Mark Maintenance System</h2>
+	<h3>Add New Student</h3>
+	<form method="post" action="insert.php">
+		<label>Name:</label>
+		<input type="text" name="name"><br><br>
+		<label>Email:</label>
+		<input type="email" name="email"><br><br>
+		<label>Math Mark:</label>
+		<input type="number" name="math_mark"><br><br>
+		<label>Science Mark:</label>
+		<input type="number" name="science_mark"><br><br>
+		<label>History Mark:</label>
+		<input type="number" name="history_mark"><br><br>
+		<input type="submit" name="submit" value="Add Student">
+	</form>
+	<br>
+	<h3>Student Details</h3>
+	<table border="1">
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Email</th>
+			<th>Math Mark</th>
+			<th>Science Mark</th>
+			<th>History Mark</th>
+			<th>Total Mark</th>
+			<th>Percentage</th>
+		</tr>
+		<?php
+		// MySQL database credentials
+		$servername = "localhost";
+		$username = "username";
+		$password = "password";
+		$dbname = "student_marks";
+
+		// Create connection
+		$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+		// Check connection
+		if (!$conn) {
+		  die("Connection failed: " . mysqli_connect_error());
+		}
+
+		// Retrieve data from MySQL database
+		$sql = "SELECT * FROM students";
+		$result = mysqli_query($conn, $sql);
+
+		// Display data
+		if (mysqli_num_rows($result) > 0) {
+		  while($row = mysqli_fetch_assoc($result)) {
+		    echo "<tr>";
+		    echo "<td>" . $row['id'] . "</td>";
+		    echo "<td>" . $row['name'] . "</td>";
+		    echo "<td>" . $row['email'] . "</td>";
+		    echo "<td>" . $row['math_mark'] . "</td>";
+		    echo "<td>" . $row['science_mark'] . "</td>";
+		    echo "<td>" . $row['history_mark'] . "</td>";
+		    echo "<td>" . $row['total_mark'] . "</td>";
+		    echo "<td>" . $row['percentage'] . "</td>";
+		    echo "</tr>";
+		  }
+		} else {
+		  echo "No student records found";
+		}
+
+		// Close connection
+		mysqli_close($conn);
+		?>
+	</table>
+</body>
+</html>
